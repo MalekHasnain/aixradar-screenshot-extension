@@ -86,21 +86,42 @@ function handleOpenEditor(message, sender, sendResponse) {
 }
 
 /**
- * Crop a data URL image to a specified region using an offscreen canvas.
+ * Crop a data URL image to a specified region.
+ * MV3 service workers don't have document, Image(), or FileReader,
+ * so we use fetch + createImageBitmap + OffscreenCanvas.
  */
 function cropImage(dataUrl, region, callback) {
-  const img = new Image();
-  img.onload = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = region.width;
-    canvas.height = region.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(
-      img,
-      region.x, region.y, region.width, region.height,
-      0, 0, region.width, region.height
-    );
-    callback(canvas.toDataURL('image/png'));
-  };
-  img.src = dataUrl;
+  fetch(dataUrl)
+    .then((response) => response.blob())
+    .then((blob) => createImageBitmap(blob))
+    .then((bitmap) => {
+      const canvas = new OffscreenCanvas(region.width, region.height);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(
+        bitmap,
+        region.x, region.y, region.width, region.height,
+        0, 0, region.width, region.height
+      );
+      return canvas.convertToBlob({ type: 'image/png' });
+    })
+    .then((outBlob) => {
+      // Convert blob back to data URL using a Blob reader approach
+      return blobToDataURL(outBlob);
+    })
+    .then((croppedDataUrl) => callback(croppedDataUrl))
+    .catch((err) => {
+      console.error('[Screenshot Extension] Crop failed:', err);
+      callback(null);
+    });
+}
+
+/**
+ * Convert a Blob to a data URL without FileReader (works in service workers).
+ */
+function blobToDataURL(blob) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
 }
