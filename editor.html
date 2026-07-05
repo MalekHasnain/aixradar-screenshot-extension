@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annotate Screenshot</title>
+  <link rel="stylesheet" href="editor.css" />
+</head>
+<body>
+  <div class="editor-container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <button id="toolArrow" class="tool-btn active" title="Arrow (A)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="19" x2="19" y2="5"></line>
+            <polyline points="12 5 19 5 19 12"></polyline>
+          </svg>
+        </button>
+        <button id="toolRect" class="tool-btn" title="Rectangle (R)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          </svg>
+        </button>
+        <button id="toolText" class="tool-btn" title="Text (T)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+            <line x1="9" y1="20" x2="15" y2="20"></line>
+            <line x1="12" y1="4" x2="12" y2="20"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="toolbar-group">
+        <label for="colorPicker" class="tool-label" title="Stroke Color">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6" fill="currentColor"></circle>
+          </svg>
+        </label>
+        <input type="color" id="colorPicker" value="#6c5ce7" />
+      </div>
+
+      <div class="toolbar-group">
+        <label for="lineWidth" class="tool-label">Size</label>
+        <select id="lineWidth">
+          <option value="2">2px</option>
+          <option value="3" selected>3px</option>
+          <option value="5">5px</option>
+          <option value="8">8px</option>
+        </select>
+      </div>
+
+      <div class="toolbar-group toolbar-right">
+        <button id="undoBtn" class="tool-btn" title="Undo (Ctrl+Z)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+        </button>
+        <button id="clearBtn" class="tool-btn" title="Clear All Annotations">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+        <button id="downloadBtn" class="tool-btn btn-download" title="Download (Ctrl+S)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download
+        </button>
+      </div>
+    </div>
+
+    <!-- Canvas Area -->
+    <div class="canvas-wrapper">
+      <canvas id="editorCanvas"></canvas>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="statusbar">
+      <span id="statusText">Ready — Select a tool to annotate</span>
+      <span id="zoomLevel">100%</span>
+    </div>
+  </div>
+
+  <script src="editor.js"></script>
+</body>
+</html>

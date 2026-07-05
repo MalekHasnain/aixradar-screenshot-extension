@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Screenshot &amp; Annotate</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📸 Screenshot &amp; Annotate</h1>
+    </header>
+
+    <div class="actions">
+      <button id="captureFull" class="btn btn-primary">
+        <span class="btn-icon">🖥️</span>
+        Capture Full Page
+      </button>
+      <button id="captureArea" class="btn btn-secondary">
+        <span class="btn-icon">✂️</span>
+        Capture Selected Area
+      </button>
+    </div>
+
+    <div class="settings">
+      <h3>Settings</h3>
+      <div class="setting-row">
+        <label for="format">Format:</label>
+        <select id="format">
+          <option value="png">PNG</option>
+          <option value="jpeg">JPEG</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <label for="quality">Quality: <span id="qualityValue">90</span>%</label>
+        <input type="range" id="quality" min="10" max="100" value="90" />
+      </div>
+    </div>
+
+    <div class="recent" id="recentSection">
+      <h3>Recent Screenshots</h3>
+      <div id="recentList" class="recent-list"></div>
+      <button id="clearRecent" class="btn btn-text">Clear History</button>
+    </div>
+
+    <footer>
+      <p>Screenshots are processed locally. Nothing is uploaded.</p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
